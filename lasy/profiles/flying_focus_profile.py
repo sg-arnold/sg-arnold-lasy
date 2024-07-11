@@ -7,7 +7,7 @@ from .profile import Profile
 from .transverse import TransverseProfile
 
 class FlyingFocus(Profile, TransverseProfile):
-    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, n_x=1, cep_phase=0, z_foc=0, v_foc=0):
+    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, n_x=0, cep_phase=0, z_foc=0, v_foc=0):
         super().__init__(wavelength, pol)
         self.tau = tau
         self.t_peak = t_peak
@@ -32,7 +32,7 @@ class FlyingFocus(Profile, TransverseProfile):
             z_foc_over_zr = ((self.z_foc - (self.v_foc * t)) * self.lambda0) / ((np.pi * self.w0**2) * (1 - (self.v_foc/c)))
         diffract_factor = 1.0 - 1j * z_foc_over_zr
         w = self.w0 * abs(diffract_factor)
-        psi = np.angle(diffract_factor)
+        psi = np.arctan(diffract_factor)
         #psi = m.atan(1.0 - 1j * z_foc_over_zr)
         
         # Hermite Gaussian transverse profile with coordinate transformation z_foc/z_r -> (z_foc - v_foc * t)/z_r
