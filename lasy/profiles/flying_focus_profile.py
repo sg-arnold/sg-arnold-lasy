@@ -7,10 +7,11 @@ from .profile import Profile
 from .transverse import TransverseProfile
 
 class FlyingFocus(Profile, TransverseProfile):
-    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, n_x=0, cep_phase=0, z_foc=0, v_foc=1):
+    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, n_order=2, n_x=0, cep_phase=0, z_foc=0, v_foc=1):
         super().__init__(wavelength, pol)
         self.tau = tau
         self.t_peak = t_peak
+        self.n_order = n_order
         self.cep_phase = cep_phase
         self.laser_energy = laser_energy
         self.lambda0 = wavelength
@@ -50,9 +51,9 @@ class FlyingFocus(Profile, TransverseProfile):
 
         # Ordinary Gaussian longitudinal profile
         envelope2 = np.exp(
-            -((t - self.t_peak) ** 2) / self.tau**2
-            + 1.0j * (self.cep_phase + self.omega0 * self.t_peak)
-            )
+        -np.power(((t - self.t_peak) ** 2) / self.tau**2, self.n_order / 2)
+        + 1.0j * (self.cep_phase + self.omega0 * self.t_peak)
+        )
         
         # Complete E field envelope
         envelope = envelope1 * envelope2
