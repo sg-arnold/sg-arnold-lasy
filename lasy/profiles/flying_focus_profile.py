@@ -7,7 +7,7 @@ from .profile import Profile
 from .transverse import TransverseProfile
 
 class FlyingFocus(Profile, TransverseProfile):
-    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, n_order=2, n_x=0, cep_phase=0, z_foc=0, v_foc=1):
+    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, beta_f, n_order=2, n_x=0, cep_phase=0, z_foc=0, v_foc=1):
         super().__init__(wavelength, pol)
         self.tau = tau
         self.t_peak = t_peak
@@ -16,6 +16,7 @@ class FlyingFocus(Profile, TransverseProfile):
         self.laser_energy = laser_energy
         self.lambda0 = wavelength
         self.w0 = w0
+        self.beta_f = beta_f
         self.omega0 = 2 * pi * c / self.lambda0
         self.n_x = n_x
         self.z_foc = z_foc
@@ -30,7 +31,7 @@ class FlyingFocus(Profile, TransverseProfile):
             assert (
                 self.lambda0 is not None
             ), "You need to pass the wavelength, when `z_foc` is non-zero."
-            z_foc_over_zr = ((self.z_foc - (self.v_foc * t)) * self.lambda0) / ((np.pi * self.w0**2) * (1 - (self.v_foc/c)))
+            z_foc_over_zr = ((self.z_foc - (self.v_foc * t)) * self.lambda0) / ((np.pi * self.w0**2) * (1 - (self.beta_f)))
         diffract_factor = 1.0 - 1j * z_foc_over_zr
         w = self.w0 * abs(diffract_factor)
         psi = np.arctan(diffract_factor)
