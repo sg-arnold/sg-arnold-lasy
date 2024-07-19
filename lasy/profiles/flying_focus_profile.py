@@ -52,7 +52,7 @@ class FlyingFocus(Profile, TransverseProfile):
 
         # Ordinary Gaussian longitudinal profile
         envelope2 = np.exp(
-        -np.power(((t - self.t_peak) ** 2) / self.tau**2, self.n_order / 2)
+        -np.power(((t - self.t_peak) ** 8) / self.tau**8, self.n_order / 2)
         + 1.0j * (self.cep_phase + self.omega0 * self.t_peak)
         )
         
