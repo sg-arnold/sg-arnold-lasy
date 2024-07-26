@@ -34,7 +34,7 @@ class FlyingFocus(Profile, TransverseProfile):
             z_foc_over_zr = ((self.z_foc - (self.v_foc * t)) * self.lambda0) / ((np.pi * self.w0**2) * (1 - (self.beta_f)))
         diffract_factor = 1.0 - 1j * z_foc_over_zr
         w = self.w0 * abs(diffract_factor)
-        psi = np.arctan(diffract_factor)
+        psi = np.arctan(z_foc_over_zr)
         #psi = m.atan(1.0 - 1j * z_foc_over_zr)
         
         # Hermite Gaussian transverse profile with coordinate transformation z_foc/z_r -> (z_foc - v_foc * t)/z_r
