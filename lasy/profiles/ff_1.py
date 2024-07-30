@@ -44,7 +44,7 @@ class FlyingFocus(Profile, TransverseProfile):
             * hermite(self.n_x)(np.sqrt(2) * x / w)
             * np.exp(
                 -(x**2) / (self.w0**2 * diffract_factor)
-                - 1.0j * self.n_x * psi
+                + 1.0j * self.n_x * psi
             )
             # Additional Gouy phase
             * np.sqrt(1.0 / diffract_factor)
