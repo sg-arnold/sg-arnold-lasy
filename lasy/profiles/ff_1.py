@@ -7,7 +7,7 @@ from .profile import Profile
 from .transverse import TransverseProfile
 
 class FlyingFocus(Profile, TransverseProfile):
-    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, beta_f=0.8, n_order=8, n_x=0, cep_phase=0, z_foc=0, v_foc=(0.8 * c)):
+    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, beta_f=0, n_order=8, n_x=0, cep_phase=0, z_foc=0, v_foc=0):
         super().__init__(wavelength, pol)
         self.tau = tau
         self.t_peak = t_peak
@@ -32,8 +32,8 @@ class FlyingFocus(Profile, TransverseProfile):
                 self.lambda0 is not None
             ), "You need to pass the wavelength, when `z_foc` is non-zero."
             z_foc_over_zr = ((self.lambda0 / (np.pi * self.w0**2))
-                             * (self.z_foc + (self.v_foc * t - self.t_peak))
-                             / (1 - self.beta_f)
+                             * (self.z_foc + (self.v_foc * (t - self.t_peak)
+                             / 1 - self.beta_f))
             )
         diffract_factor = 1.0 - 1j * z_foc_over_zr
         w = self.w0 * abs(diffract_factor)
