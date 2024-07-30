@@ -31,7 +31,7 @@ class FlyingFocus(Profile, TransverseProfile):
             assert (
                 self.lambda0 is not None
             ), "You need to pass the wavelength, when `z_foc` is non-zero."
-            z_foc_over_zr = ((self.lambda0 / (np.pi * self.w0**2)) * (self.z_foc + (self.v_foc * (t - self.t_peak) / 1 - self.beta_f)))
+            z_foc_over_zr = (self.lambda0 / (np.pi * self.w0**2)) * (self.z_foc + (self.v_foc * (t - self.t_peak) / 1 - self.beta_f))
         diffract_factor = 1.0 - 1j * z_foc_over_zr
         w = self.w0 * abs(diffract_factor)
         psi = np.arctan(diffract_factor)
