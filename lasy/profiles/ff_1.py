@@ -7,7 +7,7 @@ from .profile import Profile
 from .transverse import TransverseProfile
 
 class FlyingFocus(Profile, TransverseProfile):
-    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, beta_f=0, n_order=8, n_x=0, cep_phase=0, z_foc=0, v_foc=0):
+    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, beta_f=0.8, n_order=8, n_x=0, cep_phase=0, z_foc=0, v_foc=(0/8 * c)):
         super().__init__(wavelength, pol)
         self.tau = tau
         self.t_peak = t_peak
