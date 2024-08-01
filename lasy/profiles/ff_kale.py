@@ -3,7 +3,7 @@ from math import factorial
 import math as m
 from scipy.special import hermite
 from scipy.constants import c, pi
-from lasy.profiles import Profile
+from lasy.profiles.profile import Profile
 from lasy.profiles.transverse import TransverseProfile
 
 class FlyingFocus(Profile, TransverseProfile):
