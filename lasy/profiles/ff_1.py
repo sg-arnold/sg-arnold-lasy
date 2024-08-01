@@ -7,7 +7,7 @@ from .profile import Profile
 from .transverse import TransverseProfile
 
 class FlyingFocus(Profile, TransverseProfile):
-    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, beta_f=0, n_order=8, n_x=0, cep_phase=0, z_foc=0):
+    def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, beta_f=0, n_order=8, n_x=0, cep_phase=0, z_foc=0, v_foc=0):
         super().__init__(wavelength, pol)
         self.tau = tau
         self.t_peak = t_peak
@@ -20,17 +20,22 @@ class FlyingFocus(Profile, TransverseProfile):
         self.omega0 = 2 * pi * c / self.lambda0
         self.n_x = n_x
         self.z_foc = z_foc
-        self.v_foc = beta_f*c
+        self.v_foc = v_foc
 
 # y variable is omitted for this 2d version of the Hermite Gaussian mode
     def evaluate(self, x, y, t):
         # Term for wavefront curvature, waist and Gouy phase
-        # were some mistakes here
-        z_foc_over_zr = (self.lambda0 / (np.pi * self.w0**2)) * (self.z_foc + self.v_foc * (t - self.t_peak) /( 1 - self.beta_f))
+        if self.z_foc and self.v_foc == 0:
+            z_foc_over_zr = 0
+        else:
+            assert (
+                self.lambda0 is not None
+            ), "You need to pass the wavelength, when `z_foc` is non-zero."
+            z_foc_over_zr = (self.lambda0 / (np.pi * self.w0**2)) * (self.z_foc + self.v_foc * (t - self.t_peak) /( 1 - self.beta_f))
         diffract_factor = 1.0 - 1j * z_foc_over_zr
         w = self.w0 * abs(diffract_factor)
-        # use angle rather than atan or use atan2 (to preserve quadrant)
         psi = np.angle(diffract_factor)
+        #psi = m.atan(1.0 - 1j * z_foc_over_zr)
         
         # Hermite Gaussian transverse profile with coordinate transformation z_foc/z_r -> (z_foc - v_foc * t)/z_r
         envelope1 = (
