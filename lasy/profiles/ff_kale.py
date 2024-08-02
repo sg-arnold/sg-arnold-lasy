@@ -3,8 +3,8 @@ from math import factorial
 import math as m
 from scipy.special import hermite
 from scipy.constants import c, pi
-from lasy.profiles.profile import Profile
-from lasy.profiles.transverse.transverse_profile import TransverseProfile
+from .profile import Profile
+from .transverse import TransverseProfile
 
 class FlyingFocus(Profile, TransverseProfile):
     def __init__(self, wavelength, pol, laser_energy, w0, tau, t_peak, beta_f=0.8, n_order=8, n_x=0, cep_phase=0, z_foc=0):
